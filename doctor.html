@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COVID-19 Health Query Form</title>
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./assests/images/virus.svg" type="image/svg+xml">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assests/css/style1.css">
+
+  <style>
+   
+body {
+  font-family: 'Poppins', sans-serif;
+  background-size: cover;
+  color: var(--white);
+  line-height: 1.6;
+}
+
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .doctor-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .doctor-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .doctor-icon {
+      font-size: 36px;
+      color: #007bff;
+    }
+
+    .doctor-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .doctor-actions button {
+      margin: 4px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 24px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .form-group label {
+      font-weight: 500;
+    }
+
+    .submit-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .doctor-text h3,
+.doctor-text p {
+  color: purple;
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <a href="index.html">
+          <img src="./assests/images/logo.svg" alt="COVID-19 Tracker">
+        </a>
+        <div class="marquee-container">
+            <marquee behavior="scroll" direction="left" scrollamount="5">
+              Stay Safe ! Wear a Mask | Wash Your Hands Regularly | Maintain Social Distance | Get Vaccinated | 
+              If You Feel Unwell, Get Tested | Follow Government Guidelines | Stay Informed with Reliable Sources 
+            </marquee>
+          </div>
+      </div>
+    </div>
+  </header>
+  <main>
+
+  <h1>Meet the Doctors</h1>
+
+  <div id="doctorList"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+
+      <div id="queryForm" style="display:none;">
+        <h3>Ask a Doctor</h3>
+        <div class="form-group">
+          <label for="queryName">Your Name</label>
+          <input type="text" id="queryName" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="queryText">Your Query</label>
+          <textarea id="queryText" rows="4" placeholder="Type your health-related question..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitQuery()">Send Query</button>
+      </div>
+
+      <div id="appointmentForm" style="display:none;">
+        <h3>Book Appointment</h3>
+        <div class="form-group">
+          <label for="appointmentName">Your Name</label>
+          <input type="text" id="appointmentName" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="appointmentPhone">Phone Number</label>
+          <input type="tel" id="appointmentPhone" placeholder="Enter your phone number" pattern="[0-9]{10}" required>
+        </div>
+        <button class="submit-btn" onclick="submitAppointment()">Book Now</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+  <script>
+    const doctors = [
+      { name: "Dr. Anjali Mehta", gender: "female", specialty: "Pulmonologist", availability: "Mon - Fri, 10AM to 4PM" },
+      { name: "Dr. Rajesh Verma", gender: "male", specialty: "General Physician", availability: "Daily, 9AM to 1PM" },
+      { name: "Dr. Sneha Reddy", gender: "female", specialty: "Dermatologist", availability: "Tue - Sat, 11AM to 5PM" },
+      { name: "Dr. Arvind Kumar", gender: "male", specialty: "Cardiologist", availability: "Mon - Thu, 9AM to 2PM" },
+      { name: "Dr. Priya Sharma", gender: "female", specialty: "Pediatrician", availability: "Mon - Sat, 8AM to 12PM" },
+      { name: "Dr. Vivek Patel", gender: "male", specialty: "Orthopedic", availability: "Mon - Fri, 2PM to 6PM" },
+      { name: "Dr. Nisha Rao", gender: "female", specialty: "Gynecologist", availability: "Mon - Fri, 10AM to 3PM" },
+      { name: "Dr. Sameer Gupta", gender: "male", specialty: "Neurologist", availability: "Tue - Sat, 1PM to 5PM" },
+      { name: "Dr. Kiran Bedi", gender: "female", specialty: "Psychiatrist", availability: "Wed - Sun, 10AM to 2PM" },
+      { name: "Dr. Amit Joshi", gender: "male", specialty: "ENT Specialist", availability: "Mon - Sat, 9AM to 1PM" },
+    ];
+
+    const doctorList = document.getElementById("doctorList");
+
+    doctors.forEach(doc => {
+      const icon = doc.gender === "male" ? "fa-user-md" : "fa-user-nurse";
+      const doctorCard = `
+        <div class="doctor-card">
+          <div class="doctor-info">
+            <i class="fas ${icon} doctor-icon"></i>
+            <div class="doctor-text">
+              <h3>${doc.name}</h3>
+              <p>Specialist: ${doc.specialty}</p>
+              <p>Availability: ${doc.availability}</p>
+            </div>
+          </div>
+          <div class="doctor-actions">
+            <button onclick="openModal('query')">Ask Query</button>
+            <button onclick="openModal('appointment')">Book Appointment</button>
+          </div>
+        </div>
+      `;
+      doctorList.innerHTML += doctorCard;
+    });
+
+    function openModal(type) {
+      document.getElementById("modal").style.display = "block";
+      document.getElementById("queryForm").style.display = type === "query" ? "block" : "none";
+      document.getElementById("appointmentForm").style.display = type === "appointment" ? "block" : "none";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    function submitQuery() {
+      const name = document.getElementById("queryName").value;
+      const query = document.getElementById("queryText").value;
+      alert(`Query sent!\nName: ${name}\nQuery: ${query}`);
+      closeModal();
+    }
+
+    function submitAppointment() {
+      const name = document.getElementById("appointmentName").value;
+      const phone = document.getElementById("appointmentPhone").value;
+      alert(`Appointment booked!\nName: ${name}\nPhone: ${phone}`);
+      closeModal();
+    }
+  </script>
+</body>
+</html>

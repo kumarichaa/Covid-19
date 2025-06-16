@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COVID-19 Health Query Form</title>
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./assests/images/virus.svg" type="image/svg+xml">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assests/css/style1.css">
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <a href="index.html">
+          <img src="./assests/images/logo.svg" alt="COVID-19 Tracker">
+        </a>
+        <div class="marquee-container">
+            <marquee behavior="scroll" direction="left" scrollamount="5">
+              Stay Safe ! Wear a Mask | Wash Your Hands Regularly | Maintain Social Distance | Get Vaccinated | 
+              If You Feel Unwell, Get Tested | Follow Government Guidelines | Stay Informed with Reliable Sources 
+            </marquee>
+          </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="form-container">
+        <div class="form-header">
+          <h2><i class="fas fa-head-side-mask"></i> COVID-19 Health Assessment</h2>
+          <p>Please fill out this form to help us better understand your health concerns</p>
+        </div>
+        
+        <div id="statusMessage" class="status-message"></div>
+        
+        <form id="covidForm">
+          <!-- Personal Information -->
+          <div class="form-group">
+            <h3><i class="fas fa-user"></i> Personal Information</h3>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label for="firstName" class="required">First Name</label>
+              <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-col">
+              <label for="lastName" class="required">Last Name</label>
+              <input type="text" id="lastName" name="lastName" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label for="email" class="required">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-col">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label for="age" class="required">Age</label>
+              <input type="number" id="age" name="age" min="1" max="120" required>
+            </div>
+            <div class="form-col">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Health Status -->
+          <div class="form-group">
+            <h3><i class="fas fa-heartbeat"></i> Health Status</h3>
+          </div>
+          
+          <div class="form-group">
+            <label>Have you been vaccinated against COVID-19?</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="vaccinated-yes" name="vaccinated" value="yes">
+                <label for="vaccinated-yes">Yes</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="vaccinated-no" name="vaccinated" value="no">
+                <label for="vaccinated-no">No</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="vaccinated-partial" name="vaccinated" value="partial">
+                <label for="vaccinated-partial">Partially</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Have you tested positive for COVID-19 in the past 14 days?</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="tested-positive-yes" name="testedPositive" value="yes">
+                <label for="tested-positive-yes">Yes</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="tested-positive-no" name="testedPositive" value="no">
+                <label for="tested-positive-no">No</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="tested-positive-unknown" name="testedPositive" value="unknown">
+                <label for="tested-positive-unknown">Not sure</label>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          <!-- Additional Information -->
+          <div class="form-group">
+            <h3><i class="fas fa-comment-medical"></i> Additional Information</h3>
+            <label for="message">Please describe your concerns in detail</label>
+            <textarea id="message" name="message" placeholder="Describe your symptoms, when they started, and any other relevant information..."></textarea>
+          </div>
+          
+          <!-- Emergency Contact -->
+          <div class="form-group">
+            <h3><i class="fas fa-exclamation-triangle"></i> Emergency Contact</h3>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-col">
+              <label for="emergencyName">Emergency Contact Name</label>
+              <input type="text" id="emergencyName" name="emergencyName">
+            </div>
+            <div class="form-col">
+              <label for="emergencyPhone">Emergency Contact Phone</label>
+              <input type="tel" id="emergencyPhone" name="emergencyPhone">
+            </div>
+          </div>
+          
+          <!-- Submit -->
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-paper-plane"></i> Submit Health Assessment
+            </button>
+          </div>
+          
+          <div class="form-footer">
+            <p>This information will be kept confidential and used only for health assessment purposes.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="./assests/js/scripts.js" defer></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

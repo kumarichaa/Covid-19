@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COVID-19 Health Portal</title>
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./assests/images/virus.svg" type="image/svg+xml">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--oxford-blue) url('../images/hero-bg.jpg') no-repeat center center fixed;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #0056b3;
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 50px;
+      margin-bottom: 10px;
+    }
+
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 5px 0;
+    }
+
+    marquee {
+      color: white;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 20px;
+    }
+
+    h1, h2 {
+      color: #0056b3;
+      text-align: center;
+    }
+
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .tab-button {
+      padding: 10px 20px;
+      background-color: #e9ecef;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .tab-button:first-child {
+      border-radius: 5px 0 0 5px;
+    }
+
+    .tab-button:last-child {
+      border-radius: 0 5px 5px 0;
+    }
+
+    .tab-button.active {
+      background-color: #0056b3;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Doctor Cards */
+    .doctor-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .doctor-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .doctor-icon {
+      font-size: 36px;
+      color: #007bff;
+    }
+
+    .doctor-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .doctor-actions button {
+      margin: 4px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .doctor-actions button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Health Assessment Form */
+    .form-section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    }
+
+    .radio-group, .checkbox-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 5px;
+    }
+
+    .radio-group label, .checkbox-group label {
+      font-weight: normal;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .submit-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 25px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      color: #aaa;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .doctor-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .doctor-info {
+        flex-direction: column;
+        margin-bottom: 15px;
+      }
+      
+      .doctor-actions {
+        display: flex;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <img src="./assests/images/logo.svg" alt="COVID-19 Health Portal">
+        <div class="marquee-container">
+          <marquee behavior="scroll" direction="left" scrollamount="5">
+            Stay Safe ! Wear a Mask | Wash Your Hands Regularly | Maintain Social Distance | Get Vaccinated | 
+            If You Feel Unwell, Get Tested | Follow Government Guidelines | Stay Informed with Reliable Sources 
+          </marquee>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="tab-container">
+      <button class="tab-button active" onclick="openTab('healthForm')">Health Assessment</button>
+      <button class="tab-button" onclick="openTab('doctors')">Consult Doctors</button>
+    </div>
+
+    <!-- Health Assessment Form Tab -->
+    <div id="healthForm" class="tab-content active">
+      <div class="form-section">
+        <h2>COVID-19 Health Assessment</h2>
+        <p>Please fill out this form to help us better understand your health concerns</p>
+        
+        <form id="healthAssessmentForm">
+          <h3>Personal Information</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" name="lastName" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+          
+          <div class="form-group">
+            <label for="age">Age *</label>
+            <input type="number" id="age" name="age" min="1" max="120" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
+          </div>
+          
+          <h3>Health Assessment</h3>
+          <div class="form-group">
+            <label>Have you experienced any COVID-19 symptoms in the last 14 days? *</label>
+            <div class="radio-group">
+              <input type="radio" id="symptoms-yes" name="symptoms" value="yes" required>
+              <label for="symptoms-yes">Yes</label>
+              <input type="radio" id="symptoms-no" name="symptoms" value="no">
+              <label for="symptoms-no">No</label>
+            </div>
+          </div>
+          
+          <div class="form-group" id="symptoms-details" style="display:none;">
+            <label>Please select symptoms you've experienced:</label>
+            <div class="checkbox-group">
+              <input type="checkbox" id="fever" name="symptomsList" value="fever">
+              <label for="fever">Fever</label>
+              
+              <input type="checkbox" id="cough" name="symptomsList" value="cough">
+              <label for="cough">Cough</label>
+              
+              <input type="checkbox" id="breath" name="symptomsList" value="breath">
+              <label for="breath">Shortness of breath</label>
+              
+              <input type="checkbox" id="fatigue" name="symptomsList" value="fatigue">
+              <label for="fatigue">Fatigue</label>
+              
+              <input type="checkbox" id="taste" name="symptomsList" value="taste">
+              <label for="taste">Loss of taste/smell</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Have you been in contact with a confirmed COVID-19 case in the last 14 days?</label>
+            <div class="radio-group">
+              <input type="radio" id="contact-yes" name="contact" value="yes">
+              <label for="contact-yes">Yes</label>
+              <input type="radio" id="contact-no" name="contact" value="no">
+              <label for="contact-no">No</label>
+              <input type="radio" id="contact-unsure" name="contact" value="unsure">
+              <label for="contact-unsure">Unsure</label>
+            </div>
+          </div>
+          
+          <h3>Vaccination Status</h3>
+          <div class="form-group">
+            <label>Have you been vaccinated against COVID-19?</label>
+            <div class="radio-group">
+              <input type="radio" id="vax-yes" name="vaccinated" value="yes">
+              <label for="vax-yes">Yes</label>
+              <input type="radio" id="vax-no" name="vaccinated" value="no">
+              <label for="vax-no">No</label>
+            </div>
+          </div>
+          
+          <div class="form-group" id="vax-details" style="display:none;">
+            <label for="doses">Number of doses received:</label>
+            <select id="doses" name="doses">
+              <option value="1">1 dose</option>
+              <option value="2">2 doses</option>
+              <option value="3">3+ doses</option>
+            </select>
+            
+            <label for="lastDose" style="margin-top: 10px; display: block;">Date of last dose:</label>
+            <input type="date" id="lastDose" name="lastDose">
+          </div>
+          
+          <div class="form-group">
+            <label for="additionalInfo">Additional Information</label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Any other health concerns or information you'd like to share..."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="submit-btn">Submit Health Assessment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Doctors Tab -->
+    <div id="doctors" class="tab-content">
+      <h2>Meet the Doctors</h2>
+      <div id="doctorList"></div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+
+        <div id="queryForm" style="display:none;">
+          <h3>Ask a Doctor</h3>
+          <div class="form-group">
+            <label for="queryName">Your Name *</label>
+            <input type="text" id="queryName" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="queryEmail">Your Email *</label>
+            <input type="email" id="queryEmail" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="queryText">Your Query *</label>
+            <textarea id="queryText" rows="4" placeholder="Type your health-related question..." required></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitQuery()">Send Query</button>
+        </div>
+
+        <div id="appointmentForm" style="display:none;">
+          <h3>Book Appointment</h3>
+          <div class="form-group">
+            <label for="appointmentName">Your Name *</label>
+            <input type="text" id="appointmentName" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="appointmentEmail">Your Email *</label>
+            <input type="email" id="appointmentEmail" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="appointmentPhone">Phone Number *</label>
+            <input type="tel" id="appointmentPhone" placeholder="Enter your phone number" pattern="[0-9]{10}" required>
+          </div>
+          <div class="form-group">
+            <label for="appointmentDate">Preferred Date *</label>
+            <input type="date" id="appointmentDate" required>
+          </div>
+          <button class="submit-btn" onclick="submitAppointment()">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Tab functionality
+    function openTab(tabName) {
+      const tabContents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
+      
+      const tabButtons = document.getElementsByClassName("tab-button");
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove("active");
+      }
+      
+      document.getElementById(tabName).classList.add("active");
+      event.currentTarget.classList.add("active");
+    }
+
+    // Doctor data and rendering
+    const doctors = [
+      { name: "Dr. Anjali Mehta", gender: "female", specialty: "Pulmonologist", availability: "Mon - Fri, 10AM to 4PM" },
+      { name: "Dr. Rajesh Verma", gender: "male", specialty: "General Physician", availability: "Daily, 9AM to 1PM" },
+      { name: "Dr. Sneha Reddy", gender: "female", specialty: "Dermatologist", availability: "Tue - Sat, 11AM to 5PM" },
+      { name: "Dr. Arvind Kumar", gender: "male", specialty: "Cardiologist", availability: "Mon - Thu, 9AM to 2PM" },
+      { name: "Dr. Priya Sharma", gender: "female", specialty: "Pediatrician", availability: "Mon - Sat, 8AM to 12PM" },
+      { name: "Dr. Vivek Patel", gender: "male", specialty: "Orthopedic", availability: "Mon - Fri, 2PM to 6PM" },
+      { name: "Dr. Nisha Rao", gender: "female", specialty: "Gynecologist", availability: "Mon - Fri, 10AM to 3PM" },
+      { name: "Dr. Sameer Gupta", gender: "male", specialty: "Neurologist", availability: "Tue - Sat, 1PM to 5PM" },
+      { name: "Dr. Kiran Bedi", gender: "female", specialty: "Psychiatrist", availability: "Wed - Sun, 10AM to 2PM" },
+      { name: "Dr. Amit Joshi", gender: "male", specialty: "ENT Specialist", availability: "Mon - Sat, 9AM to 1PM" },
+    ];
+
+    const doctorList = document.getElementById("doctorList");
+
+    doctors.forEach(doc => {
+      const icon = doc.gender === "male" ? "fa-user-md" : "fa-user-nurse";
+      const doctorCard = `
+        <div class="doctor-card">
+          <div class="doctor-info">
+            <i class="fas ${icon} doctor-icon"></i>
+            <div class="doctor-text">
+              <h3>${doc.name}</h3>
+              <p><strong>Specialty:</strong> ${doc.specialty}</p>
+              <p><strong>Availability:</strong> ${doc.availability}</p>
+            </div>
+          </div>
+          <div class="doctor-actions">
+            <button onclick="openModal('query', '${doc.name}')">Ask Query</button>
+            <button onclick="openModal('appointment', '${doc.name}')">Book Appointment</button>
+          </div>
+        </div>
+      `;
+      doctorList.innerHTML += doctorCard;
+    });
+
+    // Form conditional logic
+    document.querySelectorAll('input[name="symptoms"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.getElementById('symptoms-details').style.display = 
+          this.value === 'yes' ? 'block' : 'none';
+      });
+    });
+
+    document.querySelectorAll('input[name="vaccinated"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.getElementById('vax-details').style.display = 
+          this.value === 'yes' ? 'block' : 'none';
+      });
+    });
+
+    // Modal functionality
+    let currentDoctor = '';
+
+    function openModal(type, doctorName = '') {
+      currentDoctor = doctorName;
+      document.getElementById("modal").style.display = "block";
+      document.getElementById("queryForm").style.display = type === "query" ? "block" : "none";
+      document.getElementById("appointmentForm").style.display = type === "appointment" ? "block" : "none";
+      
+      // Clear previous inputs when opening modal
+      if (type === "query") {
+        document.getElementById("queryName").value = "";
+        document.getElementById("queryEmail").value = "";
+        document.getElementById("queryText").value = "";
+      } else {
+        document.getElementById("appointmentName").value = "";
+        document.getElementById("appointmentEmail").value = "";
+        document.getElementById("appointmentPhone").value = "";
+        document.getElementById("appointmentDate").value = "";
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+      currentDoctor = '';
+    }
+
+    function submitQuery() {
+      const name = document.getElementById("queryName").value;
+      const email = document.getElementById("queryEmail").value;
+      const query = document.getElementById("queryText").value;
+      
+      if (!name || !email || !query) {
+        alert("Please fill in all required fields");
+        return;
+      }
+      
+      const doctorInfo = currentDoctor ? ` with ${currentDoctor}` : '';
+      alert(`Your query has been sent${doctorInfo}!\nWe'll respond to ${email} shortly.`);
+      closeModal();
+    }
+
+    function submitAppointment() {
+      const name = document.getElementById("appointmentName").value;
+      const email = document.getElementById("appointmentEmail").value;
+      const phone = document.getElementById("appointmentPhone").value;
+      const date = document.getElementById("appointmentDate").value;
+      
+      if (!name || !email || !phone || !date) {
+        alert("Please fill in all required fields");
+        return;
+      }
+      
+      const doctorInfo = currentDoctor ? ` with ${currentDoctor}` : '';
+      alert(`Appointment booked${doctorInfo}!\nDate: ${date}\nWe've sent confirmation to ${email}`);
+      closeModal();
+    }
+
+    // Health Assessment Form Submission
+    document.getElementById('healthAssessmentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Here you would typically send the data to a server
+      // For now, we'll just show a confirmation
+      const firstName = document.getElementById('firstName').value;
+      alert(`Thank you, ${firstName}! Your health assessment has been submitted.`);
+      
+      // Reset form
+      this.reset();
+      document.getElementById('symptoms-details').style.display = 'none';
+      document.getElementById('vax-details').style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      if (event.target == document.getElementById('modal')) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
